@@ -123,7 +123,10 @@ class TrombiDict(TrombiObject, dict):
 def _jsonize_params(params):
     result = dict()
     for key, value in params.items():
-        result[key] = json.dumps(value)
+        if isinstance(value, basestring):
+            result[key] = value
+        else:
+            result[key] = json.dumps(value)
     return urlencode(result)
 
 
