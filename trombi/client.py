@@ -525,7 +525,7 @@ class Database(TrombiObject):
         if kwargs:
             url = '%s?%s' % (url, _jsonize_params(kwargs))
         if stale:
-            url = '%s%sstale=%s', (url, '&' if kwargs else '?', stale)
+            url = '%s%sstale=%s' % (url, '&' if kwargs else '?', stale)
 
         if keys is not None:
             self._fetch(url, _really_callback,
