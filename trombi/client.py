@@ -123,10 +123,7 @@ class TrombiDict(TrombiObject, dict):
 def _jsonize_params(params):
     result = dict()
     for key, value in params.items():
-        if isinstance(value, basestring):
-            result[key] = value
-        else:
-            result[key] = json.dumps(value)
+        result[key] = json.dumps(value)
     return urlencode(result)
 
 
@@ -523,9 +520,12 @@ class Database(TrombiObject):
         # ending up twice in the request, both in the body and as a
         # query parameter.
         keys = kwargs.pop('keys', None)
+        stale = kwargs.pop('stale', None)
 
         if kwargs:
             url = '%s?%s' % (url, _jsonize_params(kwargs))
+        if stale:
+            url = '%s%sstale=%s', (url, '&' if kwargs else '?', stale)
 
         if keys is not None:
             self._fetch(url, _really_callback,
